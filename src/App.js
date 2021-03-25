@@ -11,6 +11,7 @@ import Shelves from './components/Shelves';
 
 export default function App() {
   const [records, setRecords] = useState([]);
+  const [nextPage, setNextPage] = useState(1);
 
   const [shelves, dispatch] = useReducer(reducer, {});
 
@@ -42,27 +43,38 @@ export default function App() {
     [dispatch],
   );
 
-  useEffect(() => {
+  const fetchNextPage = useCallback(() => {
+    const currentRecordList = JSON.parse(JSON.stringify(records))
     fetch(
-      'https://api.discogs.com/users/blacklight/collection/folders/0/releases',
+      `https://api.discogs.com/users/blacklight/collection/folders/0/releases?page=${nextPage}&per_page=5`,
     )
       .then(resp => resp.json())
       .then(json => {
-        setRecords(
-          json.releases.map(release => {
-            const { id, basic_information: info } = release;
-            return {
-              id: `${id}`,
-              title: info.title,
-              formats: info.formats.map(format => format.name),
-              label: info.labels?.[0]?.name ?? '',
-              artists: info.artists.map(artist => artist.name),
-              date: info.year,
-            };
-          }),
-        );
+        const totalNumOfPages = json.pagination?.pages
+        const currentPage = json.pagination?.page
+        if (currentPage < totalNumOfPages) {
+          setNextPage(currentPage + 1)
+        }
+
+        json.releases.forEach(release => {
+          const { id, basic_information: info } = release;
+          currentRecordList.push({
+            id: `${id}`,
+            title: info.title,
+            formats: info.formats.map(format => format.name),
+            label: info.labels?.[0]?.name ?? '',
+            artists: info.artists.map(artist => artist.name),
+            date: info.year,
+          })
+        })
+        console.log(currentRecordList)
+        setRecords(currentRecordList);
       });
-  }, []);
+  }, [nextPage, records])
+
+  useEffect(() => {
+    fetchNextPage()
+  }, []); // I want to run only once, so no dependency array
 
   return (
     <Container>
@@ -74,6 +86,7 @@ export default function App() {
             records={records}
             shelves={shelves}
             dispatch={dispatch}
+            onPaginateClick={fetchNextPage}
           />
         </Grid>
 
