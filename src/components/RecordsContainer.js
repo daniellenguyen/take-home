@@ -2,7 +2,7 @@ import { List } from '@material-ui/core';
 
 import Record from './Record';
 
-export default function RecordsContainer({ records, shelves, dispatch }) {
+export default function RecordsContainer({ records, shelves, dispatch, onPaginateClick }) {
   return (
     <>
       <h2>Records</h2>
@@ -21,6 +21,7 @@ export default function RecordsContainer({ records, shelves, dispatch }) {
             dispatch={dispatch}
           />
         ))}
+        <button onClick={onPaginateClick}>More</button>
       </List>
     </>
   );
