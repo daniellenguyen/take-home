@@ -101,14 +101,6 @@ describe('App', () => {
     await waitFor(() => expect(recordsAfterPagination === recordsBeforePagination + 1))
   })
 
-  it('does not skip records while paginating', async () => {
-    const { asFragment } = render(<App />);
-    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
-    fireEvent.click(screen.getByText('More'));
-    const records = screen.getAllByTestId('record').length
-    await waitFor(() => expect(screen.getAllByTestId('record').length === 2))
-  })
-
   it('removes pagination button at the end of the list', async () => {
     // mock that response of last page is returned
     // assert that i can't find the more button anymore
