@@ -21,7 +21,7 @@ export default function RecordsContainer({ records, shelves, dispatch, onPaginat
             dispatch={dispatch}
           />
         ))}
-        <button onClick={onPaginateClick}>more</button>
+        <button onClick={onPaginateClick}>More</button>
       </List>
     </>
   );

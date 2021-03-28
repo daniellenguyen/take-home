@@ -26,6 +26,7 @@ exports[`App can add a shelf 1`] = `
           >
             <div
               class="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
+              data-testid="record"
               style="width: 260px;"
             >
               <div
@@ -92,6 +93,9 @@ exports[`App can add a shelf 1`] = `
               </div>
             </div>
           </li>
+          <button>
+            More
+          </button>
         </ul>
       </div>
       <div
@@ -189,6 +193,7 @@ exports[`App can remove a shelf 1`] = `
           >
             <div
               class="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
+              data-testid="record"
               style="width: 260px;"
             >
               <div
@@ -212,88 +217,9 @@ exports[`App can remove a shelf 1`] = `
               />
             </div>
           </li>
-        </ul>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9"
-      >
-        <h2>
-          Shelves
-        </h2>
-        <ul
-          class="MuiList-root MuiList-padding"
-          style="height: calc(100vh - 12rem); overflow: scroll;"
-        >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              Add Shelf
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
+          <button>
+            More
           </button>
-        </ul>
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`App fetches records 1`] = `
-<DocumentFragment>
-  <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
-  >
-    <h1>
-      Record Shelves App
-    </h1>
-    <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-    >
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
-      >
-        <h2>
-          Records
-        </h2>
-        <ul
-          class="MuiList-root MuiList-padding"
-          style="background-color: rgb(245, 245, 245); height: calc(100vh - 12rem); overflow: scroll;"
-        >
-          <li
-            class="MuiListItem-root MuiListItem-gutters"
-          >
-            <div
-              class="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
-              style="width: 260px;"
-            >
-              <div
-                class="MuiCardContent-root"
-              >
-                <p>
-                  Title: Dirty Dancing
-                </p>
-                <p>
-                  Artist(s):Swayzak
-                </p>
-                <p>
-                  Label: !K7 Records
-                </p>
-                <p>
-                  Formats: Vinyl
-                </p>
-              </div>
-              <div
-                class="MuiCardActions-root MuiCardActions-spacing"
-              />
-            </div>
-          </li>
         </ul>
       </div>
       <div
