@@ -45,6 +45,7 @@ export default function App() {
 
   const fetchNextPage = useCallback(() => {
     const currentRecordList = JSON.parse(JSON.stringify(records))
+    // debugger
     fetch(
       `https://api.discogs.com/users/blacklight/collection/folders/0/releases?page=${nextPage}&per_page=5`,
     )
@@ -67,7 +68,6 @@ export default function App() {
             date: info.year,
           })
         })
-        console.log(currentRecordList)
         setRecords(currentRecordList);
       });
   }, [nextPage, records])
