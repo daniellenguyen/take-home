@@ -90,6 +90,7 @@ export default function App() {
     setIsInvalidUsername(false)
     setCurrentUsername(username)
     setCurrentPage(1)
+    setRecords([])
   }, []);
 
   useEffect(() => {
