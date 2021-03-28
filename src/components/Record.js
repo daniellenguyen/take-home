@@ -8,17 +8,17 @@ import {
   ListItem,
   MenuItem,
   Select,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 export default function Record({ record, shelf, shelves, dispatch }) {
   return (
     <ListItem key={record.id}>
-      <Card style={{ width: '260px' }}>
+      <Card style={{ width: "260px" }} data-testid="record">
         <CardContent>
           <p>Title: {record.title}</p>
-          <p>Artist(s):{record.artists.join(', ')}</p>
+          <p>Artist(s):{record.artists.join(", ")}</p>
           <p>Label: {record.label}</p>
-          <p>Formats: {record.formats.join(', ')}</p>
+          <p>Formats: {record.formats.join(", ")}</p>
         </CardContent>
 
         <CardActions>
@@ -26,7 +26,7 @@ export default function Record({ record, shelf, shelves, dispatch }) {
             <Button
               onClick={() =>
                 dispatch({
-                  type: 'removeRecordFromShelf',
+                  type: "removeRecordFromShelf",
                   shelfId: shelf.id,
                   recordId: record.id,
                 })
@@ -35,20 +35,20 @@ export default function Record({ record, shelf, shelves, dispatch }) {
               Remove
             </Button>
           ) : Object.keys(shelves).length ? (
-            <FormControl style={{ minWidth: '120px' }}>
+            <FormControl style={{ minWidth: "120px" }}>
               <InputLabel>Add to shelf</InputLabel>
               <Select
                 data-testid="add-shelf"
                 value=""
-                onChange={evt =>
+                onChange={(evt) =>
                   dispatch({
-                    type: 'addRecordToShelf',
+                    type: "addRecordToShelf",
                     shelfId: evt.target.value,
                     recordId: record.id,
                   })
                 }
               >
-                {Object.values(shelves).map(option => (
+                {Object.values(shelves).map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
@@ -61,4 +61,3 @@ export default function Record({ record, shelf, shelves, dispatch }) {
     </ListItem>
   );
 }
-
