@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { TextField } from "@material-ui/core";
 
 export default function Username({ isInvalidUsername, onUsernameChange }) {
   const [input, setInput] = useState("");
 
-  const changeUsername = () => {
+  const changeUsername = useCallback((event) => {
+    event.preventDefault() // stop refreshing the page automatically onsubmit
     onUsernameChange(input);
-  };
+  }, [onUsernameChange, input])
 
   return (
-    <>
+    <form onSubmit={changeUsername}>
       <TextField
         label="Pick a Discogs user"
         variant="outlined"
@@ -19,7 +20,6 @@ export default function Username({ isInvalidUsername, onUsernameChange }) {
         onChange={event => setInput(event.target.value)}
         value={input}
       ></TextField>
-      <button onClick={changeUsername}>Enter</button>
-    </>
+      </form>
   );
 }

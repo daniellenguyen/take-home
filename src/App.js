@@ -97,7 +97,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    debugger
     fetchNextPage();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, currentUsername]); // run fetchNextPage on first render or when current username changes
