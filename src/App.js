@@ -61,11 +61,9 @@ export default function App() {
             setRecords([])
             return;
           } else {
-            setCurrentPage(json.pagination?.page + 1);
             if (totalNumberOfPages === null) {
               setTotalNumberOfPages(json.pagination?.pages);
             }
-
             json.releases.forEach((release) => {
               const { id, basic_information: info } = release;
               setRecords((previousRecords) => {
@@ -86,17 +84,23 @@ export default function App() {
     }
   }, [currentPage, totalNumberOfPages, currentUsername]);
 
+  const handleOnPaginateClick = useCallback(() => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  }, [])
+
   const handleUsernameChange = useCallback((username) => {
     setIsInvalidUsername(false)
-    setCurrentUsername(username)
     setCurrentPage(1)
     setRecords([])
+    setTotalNumberOfPages(null)
+    setCurrentUsername(username)
   }, []);
 
   useEffect(() => {
+    debugger
     fetchNextPage();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUsername]); // run fetchNextPage on first render or when current username changes
+  }, [currentPage, currentUsername]); // run fetchNextPage on first render or when current username changes
 
   return (
     <Container>
@@ -112,7 +116,7 @@ export default function App() {
             records={records}
             shelves={shelves}
             dispatch={dispatch}
-            onPaginateClick={fetchNextPage}
+            onPaginateClick={handleOnPaginateClick}
           />
         </Grid>
         <Grid item xs={9}>
