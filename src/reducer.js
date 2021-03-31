@@ -32,13 +32,31 @@ export const reducer = (state, action) => {
       };
     case "addRecordToShelf":
       const newRecordList = [...state[action.shelfId].records]
-      // create a new separate draggableId for a record once it's added to shelf
-      newRecordList.push({id: action.recordId, draggableId: uuid()})
+      if (state[action.shelfId].records.find((record) => record.id === action.recordId)) {
+        return {
+          ...state,
+          [action.shelfId]: {
+            ...state[action.shelfId],
+            duplicateErrorHappened: true,
+          },
+        };
+      } else {
+        // create a new separate draggableId for a record once it's added to shelf
+        newRecordList.push({id: action.recordId, draggableId: uuid()})
+        return {
+          ...state,
+          [action.shelfId]: {
+            ...state[action.shelfId],
+            records: newRecordList,
+          },
+        };
+      }
+    case "clearDuplicateRecordError":
       return {
         ...state,
         [action.shelfId]: {
           ...state[action.shelfId],
-          records: newRecordList,
+          duplicateErrorHappened: false,
         },
       };
     case "removeRecordFromShelf":
@@ -64,25 +82,36 @@ export const reducer = (state, action) => {
       };
     case "moveBetweenShelves":
       const newShelf = [...state[action.newShelf].records];
-      newShelf.splice(
-        action.newIndex,
-        0,
-        state[action.oldShelf].records[action.oldIndex]
-      );
+      if (newShelf.find((record) => record.id === action.recordId)) {
+        return {
+          ...state,
+          [action.newShelf]: {
+            ...state[action.newShelf],
+            records: newShelf,
+            duplicateErrorHappened: true,
+          },
+        };
+      } else {
+        newShelf.splice(
+          action.newIndex,
+          0,
+          state[action.oldShelf].records[action.oldIndex]
+        );
 
-      return {
-        ...state,
-        [action.oldShelf]: {
-          ...state[action.oldShelf],
-          records: state[action.oldShelf].records.filter(
-            (record, index) => index !== action.oldIndex
-          ),
-        },
-        [action.newShelf]: {
-          ...state[action.newShelf],
-          records: newShelf,
-        },
-      };
+        return {
+          ...state,
+          [action.oldShelf]: {
+            ...state[action.oldShelf],
+            records: state[action.oldShelf].records.filter(
+              (record, index) => index !== action.oldIndex
+            ),
+          },
+          [action.newShelf]: {
+            ...state[action.newShelf],
+            records: newShelf,
+          },
+        };
+      }
     default:
       throw new Error();
   }
