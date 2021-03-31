@@ -31,7 +31,6 @@ export const reducer = (state, action) => {
         },
       };
     case "addRecordToShelf":
-      const newRecordList = [...state[action.shelfId].records]
       if (state[action.shelfId].records.find((record) => record.id === action.recordId)) {
         return {
           ...state,
@@ -41,6 +40,7 @@ export const reducer = (state, action) => {
           },
         };
       } else {
+        const newRecordList = [...state[action.shelfId].records]
         // create a new separate draggableId for a record once it's added to shelf
         newRecordList.push({id: action.recordId, draggableId: uuid()})
         return {
