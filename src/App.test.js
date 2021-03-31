@@ -105,4 +105,13 @@ describe('App', () => {
     // mock that response of last page is returned
     // assert that i can't find the more button anymore
   })
+
+  // it shows an error with incorrect username input
+
+  // it replaces prev user's records with new user's records 
+
+  // it prevents adding duplicates to a shelf, shows error message
+  // both when dragging in between shelves and when adding from record list
+
+  
 });
