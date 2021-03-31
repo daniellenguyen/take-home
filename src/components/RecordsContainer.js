@@ -1,5 +1,4 @@
 import { List } from "@material-ui/core";
-
 import Record from "./Record";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -14,7 +13,7 @@ export default function RecordsContainer({
     <>
       <h2>{currentUsername}'s Records</h2>
       <Droppable
-        droppableId={"recordList"}
+        droppableId="recordList"
         direction="horizontal"
         isDropDisabled={true}
       >
@@ -28,18 +27,14 @@ export default function RecordsContainer({
             }}
           >
             {records.map((record, index) => (
-                <Draggable
-                  key={record.id}
-                  draggableId={record.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
+              <Draggable key={record.id} draggableId={record.id} index={index}>
+                {(provided, snapshot) => (
+                  <>
                     <span
                       key={record.id}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-
                     >
                       <Record
                         key={record.id}
@@ -48,10 +43,23 @@ export default function RecordsContainer({
                         dispatch={dispatch}
                       />
                     </span>
-                  )}
-                </Draggable>
+                    {snapshot.isDragging && (
+                      <div>
+                        <Record
+                          key={record.id}
+                          record={record}
+                          shelves={shelves}
+                          dispatch={dispatch}
+                          style={{ display: "none!important" }}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </Draggable>
             ))}
             <button onClick={onPaginateClick}>More</button>
+            {provided.placeholder}
           </List>
         )}
       </Droppable>
