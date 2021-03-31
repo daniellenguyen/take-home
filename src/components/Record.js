@@ -3,11 +3,7 @@ import {
   Card,
   CardActions,
   CardContent,
-  FormControl,
-  InputLabel,
   ListItem,
-  MenuItem,
-  Select,
 } from "@material-ui/core";
 
 export default function Record({ record, shelf, shelves, dispatch }) {
@@ -22,7 +18,7 @@ export default function Record({ record, shelf, shelves, dispatch }) {
         </CardContent>
 
         <CardActions>
-          {shelf ? (
+          {shelf && (
             <Button
               onClick={() =>
                 dispatch({
@@ -34,28 +30,7 @@ export default function Record({ record, shelf, shelves, dispatch }) {
             >
               Remove
             </Button>
-          ) : Object.keys(shelves).length ? (
-            <FormControl style={{ minWidth: "120px" }}>
-              <InputLabel>Add to shelf</InputLabel>
-              <Select
-                data-testid="add-shelf"
-                value=""
-                onChange={(evt) =>
-                  dispatch({
-                    type: "addRecordToShelf",
-                    shelfId: evt.target.value,
-                    recordId: record.id,
-                  })
-                }
-              >
-                {Object.values(shelves).map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          ) : null}
+          )}
         </CardActions>
       </Card>
     </ListItem>

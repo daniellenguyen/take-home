@@ -14,8 +14,8 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import Record from "./Record";
 
 export default function Shelf({ records, shelf, dispatch }) {
-  const shelfRecords = shelf.records.map((id) =>
-    records.find((record) => id === record.id)
+  const shelfRecords = shelf.records.map(shelfRecord =>
+    records.find(record => shelfRecord.id === record.id),
   );
 
   const [renaming, setRenaming] = useState(false);
@@ -92,7 +92,7 @@ export default function Shelf({ records, shelf, dispatch }) {
                 shelfRecords.map((record, index) => (
                   <Draggable
                     key={record.id}
-                    draggableId={record.id}
+                    draggableId={shelf?.records?.find((rec) => rec.id === record.id).draggableId}
                     index={index}
                   >
                     {(provided, snapshot) => (
@@ -114,6 +114,7 @@ export default function Shelf({ records, shelf, dispatch }) {
               ) : (
                 <p>No records in shelf</p>
               )}
+              {provided.placeholder}
             </List>
           )}
         </Droppable>

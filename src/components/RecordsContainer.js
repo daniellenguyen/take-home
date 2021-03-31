@@ -1,28 +1,68 @@
-import { List } from '@material-ui/core';
+import { List } from "@material-ui/core";
+import Record from "./Record";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
-import Record from './Record';
-
-export default function RecordsContainer({ currentUsername, records, shelves, dispatch, onPaginateClick }) {
+export default function RecordsContainer({
+  currentUsername,
+  records,
+  shelves,
+  dispatch,
+  onPaginateClick,
+}) {
   return (
     <>
       <h2>{currentUsername}'s Records</h2>
-      <List
-        style={{
-          backgroundColor: '#f5f5f5',
-          height: 'calc(100vh - 12rem)',
-          overflow: 'scroll',
-        }}
+      <Droppable
+        droppableId="recordList"
+        direction="horizontal"
+        isDropDisabled={true}
       >
-        {records.map(record => (
-          <Record
-            key={record.id}
-            record={record}
-            shelves={shelves}
-            dispatch={dispatch}
-          />
-        ))}
-        <button onClick={onPaginateClick}>More</button>
-      </List>
+        {(provided, snapshot) => (
+          <List
+            ref={provided.innerRef}
+            style={{
+              backgroundColor: "#f5f5f5",
+              height: "calc(100vh - 12rem)",
+              overflow: "scroll",
+            }}
+          >
+            {records.map((record, index) => (
+              <Draggable key={record.id} draggableId={record.id} index={index}>
+                {(provided, snapshot) => (
+                  <>
+                    <span
+                      key={record.id}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <Record
+                        key={record.id}
+                        record={record}
+                        shelves={shelves}
+                        dispatch={dispatch}
+                      />
+                    </span>
+                    {snapshot.isDragging && (
+                      <div>
+                        <Record
+                          key={record.id}
+                          record={record}
+                          shelves={shelves}
+                          dispatch={dispatch}
+                          style={{ display: "none!important" }}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </Draggable>
+            ))}
+            <button onClick={onPaginateClick}>More</button>
+            {provided.placeholder}
+          </List>
+        )}
+      </Droppable>
     </>
   );
 }

@@ -27,7 +27,13 @@ export default function App() {
         return;
       }
 
-      if (source.droppableId === destination.droppableId) {
+      if (source.droppableId === "recordList") {
+        dispatch({
+          type: "addRecordToShelf",
+          shelfId: destination.droppableId,
+          recordId: result.draggableId,
+        });
+      } else if (source.droppableId === destination.droppableId) {
         dispatch({
           type: "reorderInShelf",
           shelfId: source.droppableId,
@@ -59,7 +65,7 @@ export default function App() {
           if (message === "User does not exist or may have been deleted.") {
             // handle username error here because catch won't catch 4xx and 5xx errors
             setIsInvalidUsername(true);
-            setRecords([])
+            setRecords([]);
             return;
           } else {
             if (totalNumberOfPages === null) {
@@ -87,19 +93,19 @@ export default function App() {
 
   const handleOnPaginateClick = useCallback(() => {
     setCurrentPage((prevPage) => prevPage + 1);
-  }, [])
+  }, []);
 
   const handleUsernameChange = useCallback((username) => {
-    setIsInvalidUsername(false)
-    setCurrentPage(1)
-    setRecords([])
-    setTotalNumberOfPages(null)
-    setCurrentUsername(username)
+    setIsInvalidUsername(false);
+    setCurrentPage(1);
+    setRecords([]);
+    setTotalNumberOfPages(null);
+    setCurrentUsername(username);
   }, []);
 
   useEffect(() => {
     fetchNextPage();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, currentUsername]); // run fetchNextPage on first render or when current username changes
 
   return (
@@ -109,22 +115,22 @@ export default function App() {
         isInvalidUsername={isInvalidUsername}
         onUsernameChange={handleUsernameChange}
       ></Username>
-      <Grid container spacing={3}>
-        <Grid item xs={3}>
-          <RecordsContainer
-            currentUsername={currentUsername}
-            records={records}
-            shelves={shelves}
-            dispatch={dispatch}
-            onPaginateClick={handleOnPaginateClick}
-          />
-        </Grid>
-        <Grid item xs={9}>
-          <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container spacing={3}>
+          <Grid item xs={3}>
+            <RecordsContainer
+              currentUsername={currentUsername}
+              records={records}
+              shelves={shelves}
+              dispatch={dispatch}
+              onPaginateClick={handleOnPaginateClick}
+            />
+          </Grid>
+          <Grid item xs={9}>
             <Shelves records={records} shelves={shelves} dispatch={dispatch} />
-          </DragDropContext>
+          </Grid>
         </Grid>
-      </Grid>
+      </DragDropContext>
     </Container>
   );
 }

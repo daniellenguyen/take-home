@@ -1,3 +1,5 @@
+import { uuid } from 'uuidv4';
+
 let shelfIdCounter = 0;
 
 export const reducer = (state, action) => {
@@ -29,7 +31,7 @@ export const reducer = (state, action) => {
         },
       };
     case "addRecordToShelf":
-      if (state[action.shelfId].records.find((id) => id === action.recordId)) {
+      if (state[action.shelfId].records.find((record) => record.id === action.recordId)) {
         return {
           ...state,
           [action.shelfId]: {
@@ -38,11 +40,14 @@ export const reducer = (state, action) => {
           },
         };
       } else {
+        const newRecordList = [...state[action.shelfId].records]
+        // create a new separate draggableId for a record once it's added to shelf
+        newRecordList.push({id: action.recordId, draggableId: uuid()})
         return {
           ...state,
           [action.shelfId]: {
             ...state[action.shelfId],
-            records: state[action.shelfId].records.concat(action.recordId),
+            records: newRecordList,
           },
         };
       }
@@ -60,7 +65,7 @@ export const reducer = (state, action) => {
         [action.shelfId]: {
           ...state[action.shelfId],
           records: state[action.shelfId].records.filter(
-            (id) => id !== action.recordId
+            (record) => record.id !== action.recordId
           ),
         },
       };
@@ -77,7 +82,7 @@ export const reducer = (state, action) => {
       };
     case "moveBetweenShelves":
       const newShelf = [...state[action.newShelf].records];
-      if (newShelf.find((id) => id === action.recordId)) {
+      if (newShelf.find((record) => record.id === action.recordId)) {
         return {
           ...state,
           [action.newShelf]: {
