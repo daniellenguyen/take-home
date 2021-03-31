@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 import {
   Box,
@@ -6,11 +6,12 @@ import {
   Input,
   List,
   ListItem,
-} from '@material-ui/core';
+  Snackbar,
+} from "@material-ui/core";
 
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
-import Record from './Record';
+import Record from "./Record";
 
 export default function Shelf({ records, shelf, dispatch }) {
   const shelfRecords = shelf.records.map(shelfRecord =>
@@ -21,36 +22,49 @@ export default function Shelf({ records, shelf, dispatch }) {
   const [inputName, setInputName] = useState(shelf.name);
 
   const handleSubmit = useCallback(() => {
-    dispatch({ type: 'renameShelf', id: shelf.id, name: inputName });
+    dispatch({ type: "renameShelf", id: shelf.id, name: inputName });
     setRenaming(false);
   }, [dispatch, inputName, shelf]);
+
+  const onSnackbarClose = () => {
+    dispatch({
+      type: "clearDuplicateRecordError",
+      shelfId: shelf.id,
+    });
+  };
+
+  const closeSnackbar = (
+    <Button onClick={onSnackbarClose} style={{ color: "white" }}>
+      X
+    </Button>
+  );
 
   return (
     <>
       <Box
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         {renaming ? (
           <Input
             variant="filled"
             value={inputName}
-            onChange={evt => setInputName(evt.target.value)}
+            onChange={(evt) => setInputName(evt.target.value)}
             onBlur={handleSubmit}
             onEnter={handleSubmit}
           />
         ) : (
-          <h3 onClick={() => setRenaming(true)} style={{ cursor: 'pointer' }}>
+          <h3 onClick={() => setRenaming(true)} style={{ cursor: "pointer" }}>
             {shelf.name}
           </h3>
         )}
         <Button
           variant="outlined"
-          onClick={() => dispatch({ type: 'deleteShelf', id: shelf.id })}
-          style={{ marginLeft: '1rem' }}
+          onClick={() => dispatch({ type: "deleteShelf", id: shelf.id })}
+          style={{ marginLeft: "1rem" }}
         >
           Remove
         </Button>
@@ -59,9 +73,9 @@ export default function Shelf({ records, shelf, dispatch }) {
       <ListItem
         key={shelf.id}
         style={{
-          backgroundColor: '#f5f5f5',
-          minHeight: '10rem',
-          marginBottom: '1rem',
+          backgroundColor: "#f5f5f5",
+          minHeight: "10rem",
+          marginBottom: "1rem",
         }}
       >
         <Droppable droppableId={shelf.id} direction="horizontal">
@@ -69,16 +83,16 @@ export default function Shelf({ records, shelf, dispatch }) {
             <List
               ref={provided.innerRef}
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                overflow: 'scroll',
+                display: "flex",
+                flexDirection: "row",
+                overflow: "scroll",
               }}
             >
               {shelfRecords.length ? (
                 shelfRecords.map((record, index) => (
                   <Draggable
                     key={record.id}
-                    draggableId={shelf.records.find((rec) => rec.id === record.id).draggableId}
+                    draggableId={shelf?.records?.find((rec) => rec.id === record.id).draggableId}
                     index={index}
                   >
                     {(provided, snapshot) => (
@@ -105,6 +119,13 @@ export default function Shelf({ records, shelf, dispatch }) {
           )}
         </Droppable>
       </ListItem>
+      <Snackbar
+        open={shelf["duplicateErrorHappened"]}
+        autoHideDuration={6000}
+        onClose={onSnackbarClose}
+        action={closeSnackbar}
+        message="This record already exists on this shelf."
+      ></Snackbar>
     </>
   );
 }
