@@ -19,11 +19,6 @@ export default function App() {
 
   const [shelves, dispatch] = useReducer(reducer, {});
 
-  const onDragStart = useCallback((result) => {
-    console.log(result)
-    result.draggableId = 1
-  }, [])
-
   const onDragEnd = useCallback(
     (result) => {
       const { source, destination } = result;
@@ -119,7 +114,7 @@ export default function App() {
         isInvalidUsername={isInvalidUsername}
         onUsernameChange={handleUsernameChange}
       ></Username>
-      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={onDragEnd}>
         <Grid container spacing={3}>
           <Grid item xs={3}>
             <RecordsContainer

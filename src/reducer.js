@@ -1,8 +1,10 @@
+import { uuid } from 'uuidv4';
+
 let shelfIdCounter = 0;
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case 'createShelf':
+    case "createShelf":
       const id = `shelf-${shelfIdCounter}`;
       shelfIdCounter++;
       return {
@@ -13,14 +15,14 @@ export const reducer = (state, action) => {
           records: [],
         },
       };
-    case 'deleteShelf':
+    case "deleteShelf":
       return Object.entries(state).reduce((newState, [id, value]) => {
         if (id !== action.id) {
           newState[id] = value;
         }
         return newState;
       }, {});
-    case 'renameShelf':
+    case "renameShelf":
       return {
         ...state,
         [action.id]: {
@@ -28,25 +30,28 @@ export const reducer = (state, action) => {
           name: action.name,
         },
       };
-    case 'addRecordToShelf':
+    case "addRecordToShelf":
+      const newRecordList = [...state[action.shelfId].records]
+      // create a new separate draggableId for a record once it's added to shelf
+      newRecordList.push({id: action.recordId, draggableId: uuid()})
       return {
         ...state,
         [action.shelfId]: {
           ...state[action.shelfId],
-          records: state[action.shelfId].records.concat(action.recordId),
+          records: newRecordList,
         },
       };
-    case 'removeRecordFromShelf':
+    case "removeRecordFromShelf":
       return {
         ...state,
         [action.shelfId]: {
           ...state[action.shelfId],
           records: state[action.shelfId].records.filter(
-            id => id !== action.recordId,
+            (record) => record.id !== action.recordId
           ),
         },
       };
-    case 'reorderInShelf':
+    case "reorderInShelf":
       const newOrder = [...state[action.shelfId].records];
       const [record] = newOrder.splice(action.oldIndex, 1);
       newOrder.splice(action.newIndex, 0, record);
@@ -57,12 +62,12 @@ export const reducer = (state, action) => {
           records: newOrder,
         },
       };
-    case 'moveBetweenShelves':
+    case "moveBetweenShelves":
       const newShelf = [...state[action.newShelf].records];
       newShelf.splice(
         action.newIndex,
         0,
-        state[action.oldShelf].records[action.oldIndex],
+        state[action.oldShelf].records[action.oldIndex]
       );
 
       return {
@@ -70,7 +75,7 @@ export const reducer = (state, action) => {
         [action.oldShelf]: {
           ...state[action.oldShelf],
           records: state[action.oldShelf].records.filter(
-            (record, index) => index !== action.oldIndex,
+            (record, index) => index !== action.oldIndex
           ),
         },
         [action.newShelf]: {
