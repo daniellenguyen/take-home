@@ -21,9 +21,3 @@
 .record-list .more-button {
     margin: 8px 16px;
 }
-
-@media(max-width: 420px) {
-    .record-list {
-        flex-direction: row;
-    }
-}
