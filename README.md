@@ -27,7 +27,7 @@ Welcome to the Record Shelves App, a tool for organizing your record collection 
 
 ## Bugs/UX improvements:
 - Make add shelf button/new shelf added go on top of pile, not bottom. 
-- On mobile width, stick record list on top and make it horizontal. Vertically center More button. 
+- On mobile width, stick record list on top and make it horizontal. Center More button. 
 - Remove ability to create duplicate shelf names
 - Implement duplicate removal for moving in between shelves
 
