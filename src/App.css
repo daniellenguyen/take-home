@@ -1,0 +1,29 @@
+.shelves-label {
+    display: inline;
+    margin-right: 16px;
+}
+
+.add-shelf-button {
+    vertical-align: text-bottom;
+}
+
+.input-shelf-name {
+    margin-top: "1rem";
+    display: inline;
+}
+
+.record-list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.record-list .more-button {
+    margin: 8px 16px;
+}
+
+@media(max-width: 420px) {
+    .record-list {
+        flex-direction: row;
+    }
+}

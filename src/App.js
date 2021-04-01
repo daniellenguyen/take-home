@@ -47,7 +47,7 @@ export default function App() {
           newShelf: destination.droppableId,
           oldIndex: source.index,
           newIndex: destination.index,
-          recordId: result.draggableId,
+          recordDraggableId: result.draggableId
         });
       }
     },

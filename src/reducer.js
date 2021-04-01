@@ -82,12 +82,13 @@ export const reducer = (state, action) => {
       };
     case "moveBetweenShelves":
       const newShelf = [...state[action.newShelf].records];
-      if (newShelf.find((record) => record.id === action.recordId)) {
+      const oldShelf = state[action.oldShelf].records
+      const recordId = oldShelf.find((rec) => rec.draggableId === action.recordDraggableId).id
+      if (newShelf.find((record) => record.id === recordId)) {
         return {
           ...state,
           [action.newShelf]: {
             ...state[action.newShelf],
-            records: newShelf,
             duplicateErrorHappened: true,
           },
         };
