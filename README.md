@@ -17,17 +17,12 @@ Welcome to the Record Shelves App, a tool for organizing your record collection 
 
 | Name | Type | Description |
 | --- | --- | --- |
-| Paginate records | Feature | Currently only the first page of results is fetched, implement fetching for subsequent pages. |
-| Let users specify Discogs username | Feature | Currently only records belonging to `blacklight` are considered, the app should provide a place to gather a new username and fetch records for them.
-| Drag and drop to add record to shelf | Enhancement | Dragging records between shelves and reordering them within a shelf works, but selecting an initial shelf from a dropdown is less intuitive. Implement dragging a record from the list of records onto its first shelf. |
 | Improve overall styles | Enhancement | Make the template your own, add colors and change layout based on design choices you find preferable. One way to start is by making the app more responsive at different page widths. |
-| Only add record once to shelf | Defect | A record can be added to a specific shelf multiple times, which leads to jarring behavior when dragging one of the duplicates around or removing it. Only one copy of a record should be allowed on a given shelf.
 | Add tests | Debt | The test coverage for the app's functionality is lacking, improve coverage on key interactions. |
 | Improve overall UX | Enhancement | Identify areas of interaction within the app that are unpleasant and reduce that friction. |
 
 ## Bugs/UX improvements:
-- Make add shelf button/new shelf added go on top of pile, not bottom. 
-- On mobile width, stick record list on top and make it horizontal. Vertically center More button. 
+- On mobile width, stick record list on top and make it horizontal.
 - Remove ability to create duplicate shelf names
 - Implement duplicate removal for moving in between shelves
 

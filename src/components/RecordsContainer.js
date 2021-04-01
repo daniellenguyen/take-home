@@ -1,6 +1,7 @@
-import { List } from "@material-ui/core";
+import { List, Button } from "@material-ui/core";
 import Record from "./Record";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import "../App.css";
 
 export default function RecordsContainer({
   currentUsername,
@@ -19,6 +20,7 @@ export default function RecordsContainer({
       >
         {(provided, snapshot) => (
           <List
+            className="record-list"
             ref={provided.innerRef}
             style={{
               backgroundColor: "#f5f5f5",
@@ -58,7 +60,13 @@ export default function RecordsContainer({
                 )}
               </Draggable>
             ))}
-            <button onClick={onPaginateClick}>More</button>
+            <Button
+              className="more-button"
+              variant="contained"
+              onClick={onPaginateClick}
+            >
+              More
+            </Button>
             {provided.placeholder}
           </List>
         )}
